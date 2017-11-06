@@ -610,35 +610,6 @@ impl Window {
         self.event_queue.borrow_mut().push(WindowEvent::MouseWindowEventClass(event));
     }
 
-    #[cfg(any(target_os = "macos", target_os = "windows"))]
-    fn handle_next_event(&self) -> bool {
-        match self.kind {
-            WindowKind::Window(ref window) => {
-                let event = match window.wait_events().next() {
-                    None => {
-                        warn!("Window event stream closed.");
-                        return true;
-                    },
-                    Some(event) => event,
-                };
-                let mut close = self.handle_window_event(event);
-                if !close {
-                    while let Some(event) = window.poll_events().next() {
-                        if self.handle_window_event(event) {
-                            close = true;
-                            break
-                        }
-                    }
-                }
-                close
-            }
-            WindowKind::Headless(..) => {
-                false
-            }
-        }
-    }
-
-    #[cfg(any(target_os = "linux", target_os = "android"))]
     fn handle_next_event(&self) -> bool {
         match self.kind {
             WindowKind::Window(ref window) => {

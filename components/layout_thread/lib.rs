@@ -1749,7 +1749,7 @@ fn get_ua_stylesheets() -> Result<UserAgentStylesheets, &'static str> {
 }
 
 lazy_static! {
-    static ref UA_STYLESHEETS: UserAgentStylesheets = {
+    pub static ref UA_STYLESHEETS: UserAgentStylesheets = {
         match get_ua_stylesheets() {
             Ok(stylesheets) => stylesheets,
             Err(filename) => {

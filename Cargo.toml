@@ -6,7 +6,7 @@ members = [
 ]
 
 [profile.dev]
-codegen-units = 4
+codegen-units = 16
 
 [profile.release]
 opt-level = 3
@@ -24,3 +24,16 @@ opt-level = 3
 #
 #     [patch."https://github.com/servo/<repository>"]
 #     <crate> = { path = "/path/to/local/checkout" }
+mio = { git = "https://github.com/myfreeweb/mio" }
+libc = { git = "https://github.com/myfreeweb/libc", branch = "fbsd12-stat-order" }
+jemallocator = { path = "/home/greg/src/github.com/alexcrichton/jemallocator" }
+jemalloc-sys = { path = "/home/greg/src/github.com/alexcrichton/jemallocator/jemalloc-sys" }
+servo-skia = { path = "/home/greg/src/github.com/servo/skia" }
+openssl = { path = "/home/greg/src/github.com/sfackler/rust-openssl/openssl" }
+openssl-sys = { path = "/home/greg/src/github.com/sfackler/rust-openssl/openssl-sys" }
+libz-sys = { path = "/home/greg/src/github.com/alexcrichton/libz-sys" }
+ipc-channel = { path = "/home/greg/src/github.com/servo/ipc-channel" }
+[patch."https://github.com/servo/gaol"]
+gaol = { path = "/home/greg/src/github.com/servo/gaol" }
+[patch."https://github.com/servo/rust-azure"]
+azure = { path = "/home/greg/src/github.com/servo/rust-azure" }

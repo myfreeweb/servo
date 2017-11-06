@@ -461,6 +461,13 @@ fn default_user_agent_string(agent: UserAgent) -> &'static str {
     const DESKTOP_UA_STRING: &'static str =
         "Mozilla/5.0 (X11; Linux i686; rv:55.0) Servo/1.0 Firefox/55.0";
 
+    #[cfg(all(target_os = "freebsd", target_arch = "x86_64"))]
+    const DESKTOP_UA_STRING: &'static str =
+        "Mozilla/5.0 (X11; FreeBSD amd64; rv:55.0) Servo/1.0 Firefox/55.0";
+    #[cfg(all(target_os = "freebsd", not(target_arch = "x86_64")))]
+    const DESKTOP_UA_STRING: &'static str =
+        "Mozilla/5.0 (X11; FreeBSD i386; rv:55.0) Servo/1.0 Firefox/55.0";
+
     #[cfg(all(target_os = "windows", target_arch = "x86_64"))]
     const DESKTOP_UA_STRING: &'static str =
         "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:55.0) Servo/1.0 Firefox/55.0";
@@ -468,8 +475,8 @@ fn default_user_agent_string(agent: UserAgent) -> &'static str {
     const DESKTOP_UA_STRING: &'static str =
         "Mozilla/5.0 (Windows NT 6.1; rv:55.0) Servo/1.0 Firefox/55.0";
 
-    #[cfg(not(any(target_os = "linux", target_os = "windows")))]
-    // Neither Linux nor Windows, so maybe OS X, and if not then OS X is an okay fallback.
+    #[cfg(not(any(target_os = "linux", target_os = "freebsd", target_os = "windows")))]
+    // Maybe OS X, and if not then OS X is an okay fallback.
     const DESKTOP_UA_STRING: &'static str =
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:55.0) Servo/1.0 Firefox/55.0";
 

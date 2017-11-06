@@ -16,7 +16,7 @@ extern crate libc;
 extern crate log;
 #[macro_use]
 extern crate profile_traits;
-#[cfg(target_os = "linux")]
+#[cfg(all(unix, not(any(target_os = "macos", target_os = "android"))))]
 extern crate regex;
 #[macro_use]
 extern crate serde;

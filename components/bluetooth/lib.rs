@@ -9,7 +9,7 @@ extern crate device;
 extern crate ipc_channel;
 extern crate servo_config;
 extern crate servo_rand;
-#[cfg(target_os = "linux")]
+#[cfg(all(unix, not(any(target_os = "macos", target_os = "android"))))]
 extern crate tinyfiledialogs;
 extern crate uuid;
 
@@ -23,7 +23,7 @@ use bluetooth_traits::scanfilter::{BluetoothScanfilter, BluetoothScanfilterSeque
 use device::bluetooth::{BluetoothAdapter, BluetoothDevice, BluetoothGATTCharacteristic};
 use device::bluetooth::{BluetoothGATTDescriptor, BluetoothGATTService};
 use ipc_channel::ipc::{self, IpcReceiver, IpcSender};
-#[cfg(target_os = "linux")]
+#[cfg(all(unix, not(any(target_os = "macos", target_os = "android"))))]
 use servo_config::opts;
 use servo_config::prefs::PREFS;
 use servo_rand::Rng;
@@ -39,11 +39,11 @@ const MAXIMUM_TRANSACTION_TIME: u8 = 30;
 const CONNECTION_TIMEOUT_MS: u64 = 1000;
 // The discovery session needs some time to find any nearby devices
 const DISCOVERY_TIMEOUT_MS: u64 = 1500;
-#[cfg(target_os = "linux")]
+#[cfg(all(unix, not(any(target_os = "macos", target_os = "android"))))]
 const DIALOG_TITLE: &'static str = "Choose a device";
-#[cfg(target_os = "linux")]
+#[cfg(all(unix, not(any(target_os = "macos", target_os = "android"))))]
 const DIALOG_COLUMN_ID: &'static str = "Id";
-#[cfg(target_os = "linux")]
+#[cfg(all(unix, not(any(target_os = "macos", target_os = "android"))))]
 const DIALOG_COLUMN_NAME: &'static str = "Name";
 
 bitflags! {
@@ -366,7 +366,7 @@ impl BluetoothManager {
         None
     }
 
-    #[cfg(target_os = "linux")]
+    #[cfg(all(unix, not(any(target_os = "macos", target_os = "android"))))]
     fn select_device(&mut self, devices: Vec<BluetoothDevice>, adapter: &BluetoothAdapter) -> Option<String> {
         if is_mock_adapter(adapter) || opts::get().headless {
             for device in devices {
@@ -396,7 +396,7 @@ impl BluetoothManager {
         None
     }
 
-    #[cfg(not(target_os = "linux"))]
+    #[cfg(not(all(unix, not(any(target_os = "macos", target_os = "android")))))]
     fn select_device(&mut self, devices: Vec<BluetoothDevice>, _adapter: &BluetoothAdapter) -> Option<String> {
         for device in devices {
             if let Ok(address) = device.get_address() {

@@ -31,6 +31,11 @@ pub fn Platform() -> DOMString {
     DOMString::from("Linux")
 }
 
+#[cfg(target_os = "freebsd")]
+pub fn Platform() -> DOMString {
+    DOMString::from("FreeBSD")
+}
+
 #[cfg(target_os = "macos")]
 pub fn Platform() -> DOMString {
     DOMString::from("Mac")

@@ -17,14 +17,14 @@ use dom_struct::dom_struct;
 use js::conversions::ConversionResult;
 use js::jsapi::{JSContext, JSObject};
 use js::jsval::{ObjectValue, UndefinedValue};
-#[cfg(target_os = "linux")]
+#[cfg(all(unix, not(any(target_os = "macos", target_os = "android"))))]
 use servo_config::opts;
 use servo_config::prefs::PREFS;
 use std::rc::Rc;
-#[cfg(target_os = "linux")]
+#[cfg(all(unix, not(any(target_os = "macos", target_os = "android"))))]
 use tinyfiledialogs::{self, MessageBoxIcon, YesNo};
 
-#[cfg(target_os = "linux")]
+#[cfg(all(unix, not(any(target_os = "macos", target_os = "android"))))]
 const DIALOG_TITLE: &'static str = "Permission request dialog";
 const NONSECURE_DIALOG_MESSAGE: &'static str = "feature is only safe to use in secure context,\
  but servo can't guarantee\n that the current context is secure. Do you want to proceed and grant permission?";
@@ -308,7 +308,7 @@ pub fn get_descriptor_permission_state(permission_name: PermissionName,
     state
 }
 
-#[cfg(target_os = "linux")]
+#[cfg(all(unix, not(any(target_os = "macos", target_os = "android"))))]
 fn prompt_user(message: &str) -> PermissionState {
     if opts::get().headless {
         return PermissionState::Denied;
@@ -322,7 +322,7 @@ fn prompt_user(message: &str) -> PermissionState {
     }
 }
 
-#[cfg(not(target_os = "linux"))]
+#[cfg(not(all(unix, not(any(target_os = "macos", target_os = "android")))))]
 fn prompt_user(_message: &str) -> PermissionState {
     // TODO popup only supported on linux
     PermissionState::Denied

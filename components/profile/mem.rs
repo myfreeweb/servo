@@ -503,14 +503,14 @@ mod system_reporter {
         None
     }
 
-    #[cfg(target_os = "linux")]
+    #[cfg(all(unix, not(any(target_os = "macos", target_os = "android"))))]
     fn page_size() -> usize {
         unsafe {
             ::libc::sysconf(::libc::_SC_PAGESIZE) as usize
         }
     }
 
-    #[cfg(target_os = "linux")]
+    #[cfg(all(unix, not(any(target_os = "macos", target_os = "android"))))]
     fn proc_self_statm_field(field: usize) -> Option<usize> {
         use std::fs::File;
         use std::io::Read;
@@ -523,12 +523,12 @@ mod system_reporter {
         Some(npages * page_size())
     }
 
-    #[cfg(target_os = "linux")]
+    #[cfg(all(unix, not(any(target_os = "macos", target_os = "android"))))]
     fn vsize() -> Option<usize> {
         proc_self_statm_field(0)
     }
 
-    #[cfg(target_os = "linux")]
+    #[cfg(all(unix, not(any(target_os = "macos", target_os = "android"))))]
     fn resident() -> Option<usize> {
         proc_self_statm_field(1)
     }
@@ -543,17 +543,17 @@ mod system_reporter {
         resident_size()
     }
 
-    #[cfg(not(any(target_os = "linux", target_os = "macos")))]
+    #[cfg(not(all(unix, not(target_os = "android"))))]
     fn vsize() -> Option<usize> {
         None
     }
 
-    #[cfg(not(any(target_os = "linux", target_os = "macos")))]
+    #[cfg(not(all(unix, not(target_os = "android"))))]
     fn resident() -> Option<usize> {
         None
     }
 
-    #[cfg(target_os = "linux")]
+    #[cfg(all(unix, not(any(target_os = "macos", target_os = "android"))))]
     fn resident_segments() -> Vec<(String, usize)> {
         use regex::Regex;
         use std::collections::HashMap;
@@ -653,7 +653,7 @@ mod system_reporter {
         seg_map.into_iter().collect()
     }
 
-    #[cfg(not(target_os = "linux"))]
+    #[cfg(not(all(unix, not(any(target_os = "macos", target_os = "android")))))]
     fn resident_segments() -> Vec<(String, usize)> {
         vec![]
     }

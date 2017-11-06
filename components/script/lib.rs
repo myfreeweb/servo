@@ -92,7 +92,7 @@ extern crate style;
 extern crate style_traits;
 extern crate swapper;
 extern crate time;
-#[cfg(any(target_os = "macos", target_os = "linux", target_os = "windows"))]
+#[cfg(not(any(target_os = "android", target_os = "ios")))]
 extern crate tinyfiledialogs;
 extern crate unicode_segmentation;
 extern crate url;
@@ -151,7 +151,7 @@ use dom::bindings::proxyhandler;
 use script_traits::SWManagerSenders;
 use serviceworker_manager::ServiceWorkerManager;
 
-#[cfg(target_os = "linux")]
+#[cfg(all(unix, not(any(target_os = "macos", target_os = "android"))))]
 #[allow(unsafe_code)]
 fn perform_platform_specific_initialization() {
     use std::mem;
@@ -189,7 +189,7 @@ fn perform_platform_specific_initialization() {
     }
 }
 
-#[cfg(not(target_os = "linux"))]
+#[cfg(not(all(unix, not(any(target_os = "macos", target_os = "android")))))]
 fn perform_platform_specific_initialization() {}
 
 pub fn init_service_workers(sw_senders: SWManagerSenders) {

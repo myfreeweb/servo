@@ -17,7 +17,7 @@ use std::path::{Path, PathBuf};
 use std::sync::{Arc, RwLock};
 use std::sync::atomic::{self, AtomicBool, AtomicUsize, Ordering};
 use std::thread;
-#[cfg(any(target_os = "macos", target_os = "linux", target_os = "windows"))]
+#[cfg(not(any(target_os = "android", target_os = "ios")))]
 use tinyfiledialogs;
 use url::Url;
 use uuid::Uuid;
@@ -34,7 +34,7 @@ pub trait UIProvider where Self: Sync {
 pub struct TFDProvider;
 
 impl UIProvider for TFDProvider {
-    #[cfg(any(target_os = "macos", target_os = "linux", target_os = "windows"))]
+    #[cfg(not(any(target_os = "android", target_os = "ios")))]
     fn open_file_dialog(&self, path: &str, patterns: Vec<FilterPattern>) -> Option<String> {
         if opts::get().headless {
             return None;
@@ -53,7 +53,7 @@ impl UIProvider for TFDProvider {
         tinyfiledialogs::open_file_dialog("Pick a file", path, filter_opt)
     }
 
-    #[cfg(any(target_os = "macos", target_os = "linux", target_os = "windows"))]
+    #[cfg(not(any(target_os = "android", target_os = "ios")))]
     fn open_file_dialog_multi(&self, path: &str, patterns: Vec<FilterPattern>) -> Option<Vec<String>> {
         if opts::get().headless {
             return None;
@@ -72,12 +72,12 @@ impl UIProvider for TFDProvider {
         tinyfiledialogs::open_file_dialog_multi("Pick files", path, filter_opt)
     }
 
-    #[cfg(not(any(target_os = "macos", target_os = "linux", target_os = "windows")))]
+    #[cfg(any(target_os = "android", target_os = "ios"))]
     fn open_file_dialog(&self, _path: &str, _patterns: Vec<FilterPattern>) -> Option<String> {
         None
     }
 
-    #[cfg(not(any(target_os = "macos", target_os = "linux", target_os = "windows")))]
+    #[cfg(any(target_os = "android", target_os = "ios"))]
     fn open_file_dialog_multi(&self, _path: &str, _patterns: Vec<FilterPattern>) -> Option<Vec<String>> {
         None
     }

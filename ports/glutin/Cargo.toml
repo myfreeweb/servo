@@ -28,7 +28,7 @@ webrender_api = {git = "https://github.com/servo/webrender", features = ["ipc"]}
 [target.'cfg(any(target_os = "linux", target_os = "macos"))'.dependencies]
 osmesa-sys = "0.1.2"
 
-[target.'cfg(target_os = "linux")'.dependencies]
+[target.'cfg(all(unix, not(any(target_os = "linux", target_os = "android"))))'.dependencies]
 x11 = "2.0.0"
 
 [target.'cfg(target_os = "android")'.dependencies]

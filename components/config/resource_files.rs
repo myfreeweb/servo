@@ -54,7 +54,7 @@ pub fn resources_dir_path() -> io::Result<PathBuf> {
     // or `<servo source>[/$target_triple]/target/release`.
     let mut path = env::current_exe()?;
     // Follow symlink
-    path = path.canonicalize()?;
+    //path = path.canonicalize()?;
 
     while path.pop() {
         path.push("resources");

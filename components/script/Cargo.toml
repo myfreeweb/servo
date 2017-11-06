@@ -23,7 +23,7 @@ phf_codegen = "0.7.18"
 phf_shared = "0.7.18"
 serde_json = "1.0"
 
-[target.'cfg(any(target_os = "macos", target_os = "linux", target_os = "windows"))'.dependencies]
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
 tinyfiledialogs = "2.5.9"
 
 [dependencies]

@@ -31,7 +31,7 @@ extern crate serde_json;
 extern crate servo_config;
 extern crate servo_url;
 extern crate time;
-#[cfg(any(target_os = "macos", target_os = "linux", target_os = "windows"))]
+#[cfg(not(any(target_os = "android", target_os = "ios")))]
 extern crate tinyfiledialogs;
 extern crate unicase;
 extern crate url;

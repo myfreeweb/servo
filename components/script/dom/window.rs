@@ -118,7 +118,7 @@ use task_source::performance_timeline::PerformanceTimelineTaskSource;
 use task_source::user_interaction::UserInteractionTaskSource;
 use time;
 use timers::{IsInterval, TimerCallback};
-#[cfg(any(target_os = "macos", target_os = "linux", target_os = "windows"))]
+#[cfg(not(any(target_os = "android", target_os = "ios")))]
 use tinyfiledialogs::{self, MessageBoxIcon};
 use url::Position;
 use webdriver_handlers::jsval_to_webdriver;
@@ -437,14 +437,14 @@ impl Window {
     }
 }
 
-#[cfg(any(target_os = "macos", target_os = "linux", target_os = "windows"))]
+#[cfg(not(any(target_os = "android", target_os = "ios")))]
 fn display_alert_dialog(message: &str) {
     if !opts::get().headless {
         tinyfiledialogs::message_box_ok("Alert!", message, MessageBoxIcon::Warning);
     }
 }
 
-#[cfg(not(any(target_os = "macos", target_os = "linux", target_os = "windows")))]
+#[cfg(any(target_os = "android", target_os = "ios"))]
 fn display_alert_dialog(_message: &str) {
     // tinyfiledialogs not supported on Android
 }

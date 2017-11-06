@@ -642,15 +642,16 @@ pub fn run_content_process(token: String) {
     PREFS.extend(unprivileged_content.prefs());
     set_logger(unprivileged_content.script_to_constellation_chan().clone());
 
-    // Enter the sandbox if necessary.
-    if opts::get().sandbox {
-       create_sandbox();
-    }
-
     // send the required channels to the service worker manager
     let sw_senders = unprivileged_content.swmanager_senders();
     script::init();
     script::init_service_workers(sw_senders);
+
+    // Enter the sandbox if necessary.
+    if opts::get().sandbox {
+       &*layout_thread::UA_STYLESHEETS; // Preload for sandbox (XXX: use openat instead)
+       create_sandbox();
+    }
 
     unprivileged_content.start_all::<script_layout_interface::message::Msg,
                                      layout_thread::LayoutThread,

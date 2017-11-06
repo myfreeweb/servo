@@ -24,11 +24,11 @@ extern crate bitflags;
 extern crate euclid;
 extern crate fnv;
 
-#[cfg(target_os = "linux")]
+#[cfg(all(unix, not(any(target_os = "android", target_os = "macos"))))]
 extern crate fontconfig;
 extern crate fontsan;
-#[cfg(any(target_os = "linux", target_os = "android"))] extern crate freetype;
-#[cfg(any(target_os = "linux", target_os = "android"))] extern crate servo_allocator;
+#[cfg(all(unix, not(target_os = "macos")))] extern crate freetype;
+#[cfg(all(unix, not(target_os = "macos")))] extern crate servo_allocator;
 extern crate gfx_traits;
 
 // Eventually we would like the shaper to be pluggable, as many operating systems have their own
